@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SelectCurrency: View {
     @Environment(\.dismiss) var dismiss
+    @State var currency: Currency
     
     var body: some View {
         ZStack {
@@ -27,10 +28,29 @@ struct SelectCurrency: View {
                 LazyVGrid(columns: [GridItem(), GridItem(), GridItem()]) {
                     // (0...4) can work for 0-4, but ForEach cannot accept ClosedRange
                     ForEach(Currency.allCases) { currency in
-                        CurrencyIcon(
-                            currencyImage: currency.image,
-                            currencyName: currency.name
-                        )
+                        // Change variable name is also viable
+                        // self.currency grabs the outer scope
+                        if (self.currency == currency) {
+                            CurrencyIcon(
+                                currencyImage: currency.image,
+                                currencyName: currency.name
+                            )
+                            .shadow(color: .black, radius: 10)
+                            // Adds above the object
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 25)
+                                    .stroke(lineWidth: 3)
+                                    .opacity(0.5)
+                            }
+                        } else {
+                            CurrencyIcon(
+                                currencyImage: currency.image,
+                                currencyName: currency.name
+                            )
+                            .onTapGesture {
+                                self.currency = currency
+                            }
+                        }
                     }
                 }
                 
@@ -57,5 +77,5 @@ struct SelectCurrency: View {
 }
 
 #Preview {
-    SelectCurrency()
+    SelectCurrency(currency: .silverPiece)
 }
