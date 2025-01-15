@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="87b0095f-c208-41a6-8a40-6f512c566c46" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/LOTRConverter/Assets.xcassets/AppIcon.appiconset/appicon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LOTRConverter/Assets.xcassets/background.imageset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LOTRConverter/Assets.xcassets/background.imageset/background.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LOTRConverter/Assets.xcassets/copperpenny.imageset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LOTRConverter/Assets.xcassets/copperpenny.imageset/copperpenny.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LOTRConverter/Assets.xcassets/goldpenny.imageset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LOTRConverter/Assets.xcassets/goldpenny.imageset/goldpenny.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LOTRConverter/Assets.xcassets/goldpiece.imageset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LOTRConverter/Assets.xcassets/goldpiece.imageset/goldpiece.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LOTRConverter/Assets.xcassets/parchment.imageset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LOTRConverter/Assets.xcassets/parchment.imageset/parchment.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LOTRConverter/Assets.xcassets/prancingpony.imageset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LOTRConverter/Assets.xcassets/prancingpony.imageset/prancingpony.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LOTRConverter/Assets.xcassets/silverpenny.imageset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LOTRConverter/Assets.xcassets/silverpenny.imageset/silverpenny.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LOTRConverter/Assets.xcassets/silverpiece.imageset/Contents.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/LOTRConverter/Assets.xcassets/silverpiece.imageset/silverpiece.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LOTRConverter.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/LOTRConverter.xcodeproj/project.pbxproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LOTRConverter/Assets.xcassets/AppIcon.appiconset/Contents.json" beforeDir="false" afterPath="$PROJECT_DIR$/LOTRConverter/Assets.xcassets/AppIcon.appiconset/Contents.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/LOTRConverter/ContentView.swift" beforeDir="false" afterPath="$PROJECT_DIR$/LOTRConverter/ContentView.swift" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="2rBP8TRwLej3lL3kpYxsKrYw82E" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "settings.editor.selected.configurable": "AndroidSdkUpdater"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="87b0095f-c208-41a6-8a40-6f512c566c46" name="Changes" comment="" />
+      <created>1736029336154</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1736029336154</updated>
+    </task>
+    <servers />
+  </component>
+</project>
