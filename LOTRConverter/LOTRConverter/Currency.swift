@@ -55,7 +55,11 @@ enum Currency: Double, CaseIterable, Identifiable {
         }
     }
     
-    func convert(amountString: String, currency: Currency) -> String {
+    // Underscore placement and second variable name ("to") in front of variable name allows
+    // alternative name usages when using the function externally
+    // Ex. convert("0.00", to: OtherCurrency)
+    // Apple tries to aim for a more 'natural' human language for this reason
+    func convert(_ amountString: String, to currency: Currency) -> String {
         // String to Double conversion
         // guard, prevents crashes, like this for example, what if user inputs something not appropriate for String to Double conversion
         // enforces an 'else' situation to fall back on
