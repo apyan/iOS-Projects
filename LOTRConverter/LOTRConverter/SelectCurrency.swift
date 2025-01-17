@@ -9,7 +9,11 @@ import SwiftUI
 
 struct SelectCurrency: View {
     @Environment(\.dismiss) var dismiss
-    @State var currency: Currency
+    
+    // @Binding refers a value being passed on from a parent view
+    // Parameters will now need a $, example $topCurrency
+    @Binding var topCurrency: Currency
+    @Binding var bottomCurrency: Currency
     
     var body: some View {
         ZStack {
@@ -25,40 +29,15 @@ struct SelectCurrency: View {
                     .fontWeight(.bold)
                 
                 // Currency Icons
-                LazyVGrid(columns: [GridItem(), GridItem(), GridItem()]) {
-                    // (0...4) can work for 0-4, but ForEach cannot accept ClosedRange
-                    ForEach(Currency.allCases) { currency in
-                        // Change variable name is also viable
-                        // self.currency grabs the outer scope
-                        if (self.currency == currency) {
-                            CurrencyIcon(
-                                currencyImage: currency.image,
-                                currencyName: currency.name
-                            )
-                            .shadow(color: .black, radius: 10)
-                            // Adds above the object
-                            .overlay {
-                                RoundedRectangle(cornerRadius: 25)
-                                    .stroke(lineWidth: 3)
-                                    .opacity(0.5)
-                            }
-                        } else {
-                            CurrencyIcon(
-                                currencyImage: currency.image,
-                                currencyName: currency.name
-                            )
-                            .onTapGesture {
-                                self.currency = currency
-                            }
-                        }
-                    }
-                }
+                IconGrid(currency: $topCurrency)
                 
                 // Text
                 Text("Select the currency you would like to convert to:")
                     .fontWeight(.bold)
+                    .padding(.top)
                 
                 // Currency Icons
+                IconGrid(currency: $bottomCurrency)
                 
                 // Done Button
                 Button("Done") {
@@ -72,10 +51,17 @@ struct SelectCurrency: View {
             }
             .padding()
             .multilineTextAlignment(.center)
+            .foregroundStyle(.black)
         }
     }
 }
 
 #Preview {
-    SelectCurrency(currency: .silverPiece)
+    @Previewable @State var topCurrency: Currency = .silverPenny
+    @Previewable @State var bottomCurrency: Currency = .goldPenny
+    
+    SelectCurrency(
+        topCurrency: $topCurrency,
+        bottomCurrency: $bottomCurrency
+    )
 }

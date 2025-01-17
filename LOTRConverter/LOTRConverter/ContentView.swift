@@ -13,8 +13,13 @@ struct ContentView: View {
     // @State allows property change in struct, state of the view
     // Need it for an indicator of change of view
     @State var showExchangeInfo = false
+    @State var showSelectCurrency = false
+    
     @State var leftAmount = ""
     @State var rightAmount = ""
+    
+    @State var leftCurrency: Currency = .silverPiece
+    @State var rightCurrency: Currency = .goldPiece
     
     var body: some View {
         ZStack {
@@ -42,17 +47,20 @@ struct ContentView: View {
                         // Currency
                         HStack {
                             // Currency Image
-                            Image(.silverpiece)
+                            Image(leftCurrency.image)
                                 .resizable()
                                 .scaledToFit()
                                 .frame(height: 33)
                             
                             // Currency Text
-                            Text("Silver Piece")
+                            Text(leftCurrency.name)
                                 .font(.headline)
                                 .foregroundStyle(.white)
                         }
                         .padding(.bottom, -5)
+                        .onTapGesture {
+                            showSelectCurrency.toggle()
+                        }
                         
                         // Text Field
                         // Bindings are two way communication
@@ -72,17 +80,20 @@ struct ContentView: View {
                         // Currency
                         HStack {
                             // Currency Text
-                            Text("Gold Piece")
+                            Text(rightCurrency.name)
                                 .font(.headline)
                                 .foregroundStyle(.white)
                             
                             // Currency Image
-                            Image(.goldpiece)
+                            Image(rightCurrency.image)
                                 .resizable()
                                 .scaledToFit()
                                 .frame(height: 33)
                         }
                         .padding(.bottom, -5)
+                        .onTapGesture {
+                            showSelectCurrency.toggle()
+                        }
                         
                         // Text Field
                         TextField("Amount", text: $rightAmount)
@@ -120,6 +131,12 @@ struct ContentView: View {
                 // hence controlled by Button's toggling
                 // also, can be placed anywhere on the content view's code
                 ExchangeInfo()
+            }
+            .sheet(isPresented: $showSelectCurrency) {
+                SelectCurrency(
+                    topCurrency: $leftCurrency,
+                    bottomCurrency: $rightCurrency
+                )
             }
 //            .border(.blue)
         }

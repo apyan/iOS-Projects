@@ -54,4 +54,19 @@ enum Currency: Double, CaseIterable, Identifiable {
             "Gold Piece"
         }
     }
+    
+    func convert(amountString: String, currency: Currency) -> String {
+        // String to Double conversion
+        // guard, prevents crashes, like this for example, what if user inputs something not appropriate for String to Double conversion
+        // enforces an 'else' situation to fall back on
+        guard let doubleAmount = Double(amountString) else {
+            // End the function and return ""
+            return ""
+        }
+        
+        let convertedAmount = (doubleAmount / self.rawValue) * currency.rawValue
+        
+        // Ensure two decimal places upon String conversion
+        return String(format: "%.2f", convertedAmount)
+    }
 }
