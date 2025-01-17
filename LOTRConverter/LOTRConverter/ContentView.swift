@@ -73,14 +73,6 @@ struct ContentView: View {
                         TextField("Amount", text: $leftAmount)
                             .textFieldStyle(.roundedBorder)
                             .focused($leftTyping)
-                            .onChange(of: leftAmount) {
-                                if (leftTyping) {
-                                    rightAmount = leftCurrency.convert(
-                                        leftAmount,
-                                        to: rightCurrency
-                                    )
-                                }
-                            }
                     }
                     
                     // Equal Sign
@@ -114,19 +106,13 @@ struct ContentView: View {
                             .textFieldStyle(.roundedBorder)
                             .multilineTextAlignment(.trailing)
                             .focused($rightTyping)
-                            .onChange(of: rightAmount) {
-                                if (rightTyping) {
-                                    leftAmount = rightCurrency.convert(
-                                        rightAmount,
-                                        to: leftCurrency
-                                    )
-                                }
-                            }
                     }
                 }
                 .padding()
                 .background(.black.opacity(0.5))
                 .clipShape(.capsule)
+                // Covers keyboard type for all TextFields, etc...
+                .keyboardType(.decimalPad)
                 
                 Spacer()
                 
@@ -147,6 +133,38 @@ struct ContentView: View {
                     .padding(.trailing)
                 }
                 
+            }
+            // For Left TextField
+            .onChange(of: leftAmount) {
+                if (leftTyping) {
+                    rightAmount = leftCurrency.convert(
+                        leftAmount,
+                        to: rightCurrency
+                    )
+                }
+            }
+            // For Right TextField
+            .onChange(of: rightAmount) {
+                if (rightTyping) {
+                    leftAmount = rightCurrency.convert(
+                        rightAmount,
+                        to: leftCurrency
+                    )
+                }
+            }
+            // Currency change from Selection screen
+            .onChange(of: leftCurrency) {
+                leftAmount = rightCurrency.convert(
+                    rightAmount,
+                    to: leftCurrency
+                )
+            }
+            // Currency change from Selection screen
+            .onChange(of: rightCurrency) {
+                rightAmount = leftCurrency.convert(
+                    leftAmount,
+                    to: rightCurrency
+                )
             }
             .sheet(isPresented: $showExchangeInfo) {
                 // sheet is being watched by the showExchangeInfo,
