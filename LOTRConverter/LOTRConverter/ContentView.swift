@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 // struct is practically immutable
 // let is immutable
@@ -25,6 +26,8 @@ struct ContentView: View {
     
     @State var leftCurrency: Currency = .silverPiece
     @State var rightCurrency: Currency = .goldPiece
+    
+    let currencyTip = CurrencyTip()
     
     var body: some View {
         ZStack {
@@ -65,7 +68,11 @@ struct ContentView: View {
                         .padding(.bottom, -5)
                         .onTapGesture {
                             showSelectCurrency.toggle()
+                            
+                            // Cause the tip to be a 'one-time' show
+                            currencyTip.invalidate(reason: .actionPerformed)
                         }
+                        .popoverTip(currencyTip, arrowEdge: .bottom)
                         
                         // Text Field
                         // Bindings are two way communication
@@ -99,6 +106,9 @@ struct ContentView: View {
                         .padding(.bottom, -5)
                         .onTapGesture {
                             showSelectCurrency.toggle()
+                            
+                            // Cause the tip to be a 'one-time' show
+                            currencyTip.invalidate(reason: .actionPerformed)
                         }
                         
                         // Text Field
@@ -133,6 +143,11 @@ struct ContentView: View {
                     .padding(.trailing)
                 }
                 
+            }
+            // Run code in the background when the screen appears
+            .task {
+                // try is require for Tips.configure(), configure() throws a possible error
+                try? Tips.configure()
             }
             // For Left TextField
             .onChange(of: leftAmount) {
