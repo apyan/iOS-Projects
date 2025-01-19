@@ -37,12 +37,16 @@ class ConvertExercise {
         // your conversion code here
         let doubleAmount = Double(intValue)
         
+        if (doubleAmount == 0.0) {
+            return ""
+        }
+        
         let convertedAmount = doubleAmount / 3.0
         
-        var convertedString = String(format: "%.2f", convertedAmount)
+        let convertedString = String(format: "%.2f", convertedAmount)
         
         if (String(convertedString.suffix(2)) == "00") {
-            return String(convertedString.removeLast(3)) ?? 
+            return String(convertedString.dropLast(3))
         } else {
             return convertedString
         }
