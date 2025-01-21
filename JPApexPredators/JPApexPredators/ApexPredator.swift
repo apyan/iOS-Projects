@@ -23,7 +23,7 @@ struct ApexPredator: Decodable, Identifiable {
     }
     
     // Everything in a Decodable must be Decodable
-    struct MovieScene: Decodable {
+    struct MovieScene: Decodable, Identifiable {
         let id: Int
         let movie: String
         let sceneDescription: String
