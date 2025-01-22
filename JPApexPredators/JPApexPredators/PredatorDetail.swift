@@ -6,9 +6,14 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct PredatorDetail: View {
     let predator: ApexPredator
+    
+    @State var position: MapCameraPosition
+    
+    @Namespace var namespace
     
     // To change the navigation back button text color
     // Assets -> AccentColor -> Appearances, (Any, Dark)
@@ -66,10 +71,56 @@ struct PredatorDetail: View {
                         .font(.largeTitle)
                     
                     // Current Location
+                    NavigationLink {
+                        PredatorMap(position: .camera(
+                            MapCamera(
+                                centerCoordinate: predator.location,
+                                distance: 1000,
+                                // Angle facing
+                                heading: 250,
+                                pitch: 80
+                                )
+                            )
+                        )
+                        // Useful for which view to start and go to
+                        // NavigationLink is the beginning state of transition
+                        .navigationTransition(.zoom(sourceID: 1, in: namespace))
+                        
+                    } label: {
+                        Map(position: $position) {
+                            Annotation(
+                                predator.name,
+                                coordinate: predator.location) {
+                                    Image(systemName: "mappin.and.ellipse")
+                                        .font(.largeTitle)
+                                        .imageScale(.large)
+                                        .symbolEffect(.pulse)
+                                }
+                                .annotationTitles(.hidden)
+                        }
+                        .frame(height: 125)
+                        .overlay(alignment: .trailing) {
+                            Image(systemName: "greaterthan")
+                                .imageScale(.large)
+                                .font(.title3)
+                                .padding(.trailing, 5)
+                        }
+                        .overlay(alignment: .topLeading) {
+                            Text("Current Location")
+                                .padding([.leading, .bottom], 5)
+                                .padding(.trailing, 8)
+                                .background(.black.opacity(0.33))
+                                .clipShape(.rect(bottomTrailingRadius: 15))
+                        }
+                        .clipShape(.rect(cornerRadius: 15))
+                    }
+                    // NavigationLink is the beginning state of transition
+                    .matchedTransitionSource(id: 1, in: namespace)
                     
                     // Appears in
                     Text("Appears In:")
                         .font(.title3)
+                        .padding(.top)
                     
                     // Provides Identifiable id for each String
                     ForEach(predator.movies, id: \.self) { movie in
@@ -109,11 +160,22 @@ struct PredatorDetail: View {
             }
         }
         .ignoresSafeArea()
+        .toolbarBackground(.automatic)
     }
 }
 
 #Preview {
-    PredatorDetail(predator:
-                    Predators().apexPredators[10])
+    let predator = Predators().apexPredators[2]
+    
+    // The other one is provided in ContentView
+    NavigationStack {
+        PredatorDetail(predator: predator,
+                       position: .camera(
+                        MapCamera(
+                            // distance is how high up from the ground
+                            centerCoordinate: predator.location,
+                            distance: 30000
+                        )))
         .preferredColorScheme(.dark)
+    }
 }
