@@ -8,11 +8,11 @@
 import Foundation
 
 struct FetchService {
-    enum FetchError: Error {
+    private enum FetchError: Error {
         case badResponse
     }
     
-    let baseURL = URL(string: "https://breaking-bad-api-six.vercel.app/api")!
+    private let baseURL = URL(string: "https://breaking-bad-api-six.vercel.app/api")!
     
     // async, unknown for the time completion, hence runs in background
     // throws deals with potentially thrown errors
@@ -93,4 +93,13 @@ struct FetchService {
         
         return nil
     }
+    
+    // Model (Data Structure)
+    
+    // Controller (Manipulate Data)
+    
+    // ViewModel (Manipulate Data)
+    // Observable to the view
+    
+    // View (Screen)
 }
