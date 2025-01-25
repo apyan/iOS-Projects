@@ -31,4 +31,37 @@ struct Char: Decodable {
     // func unwrapGift() async { ... }
     // hence await, a sibling word to async
     // await friend.unwrapGift(), tell other functions and code to happen while this function isn't finished yet
+    
+    // Automatically provided but hidden
+    enum CodingKeys: CodingKey {
+        case name
+        case birthday
+        case occupations
+        case images
+        case aliases
+        case status
+        case portrayedBy
+        //case death
+    }
+    
+    init(from decoder: any Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.name = try container.decode(String.self, forKey: .name)
+        self.birthday = try container.decode(String.self, forKey: .birthday)
+        self.occupations = try container.decode([String].self, forKey: .occupations)
+        self.images = try container.decode([URL].self, forKey: .images)
+        self.aliases = try container.decode([String].self, forKey: .aliases)
+        self.status = try container.decode(String.self, forKey: .status)
+        self.portrayedBy = try container.decode(String.self, forKey: .portrayedBy)
+        
+        // Edited with sample data
+        //self.death = try container.decodeIfPresent(Death.self, forKey: .death)
+        
+        let deathDecoder = JSONDecoder()
+        deathDecoder.keyDecodingStrategy = .convertFromSnakeCase
+        // Can eliminate ! from try since the whole function 'throws'
+        let deathData = try Data(contentsOf:
+                                    Bundle.main.url(forResource: "sampledeath", withExtension: "json")!)
+        death = try! deathDecoder.decode(Death.self, from: deathData)
+    }
 }
