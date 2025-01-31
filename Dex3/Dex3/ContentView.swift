@@ -19,18 +19,37 @@ struct ContentView: View {
     private var pokedex: FetchedResults<Pokemon>
 
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(pokedex) { pokemon in
-                    NavigationLink {
-                        // Core Data can be optional or not,
-                        // but Swift doesn't know, hence optional by default
-                        Text("\(pokemon.id): \(pokemon.name!.capitalized)")
-                    } label: {
-                        Text("\(pokemon.id): \(pokemon.name!.capitalized)")
+        // NavigationView has been deprecated
+        NavigationStack {
+            List(pokedex) { pokemon in
+                NavigationLink(value: pokemon) {
+                    AsyncImage(url: pokemon.sprite) { image in
+                        image
+                            .resizable()
+                            .scaledToFit()
+                    } placeholder: {
+                        ProgressView()
                     }
+                    .frame(width: 100, height: 100)
+                    
+                    // Core Data can be optional or not,
+                    // but Swift doesn't know, hence optional by default
+                    Text(pokemon.name!.capitalized)
                 }
             }
+            .navigationTitle("Pokedex")
+            .navigationDestination(for: Pokemon.self, destination: { pokemon in
+                
+                AsyncImage(url: pokemon.sprite) { image in
+                    image
+                        .resizable()
+                        .scaledToFit()
+                } placeholder: {
+                    ProgressView()
+                }
+                .frame(width: 100, height: 100)
+                
+            })
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     EditButton()
