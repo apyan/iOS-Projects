@@ -46,6 +46,13 @@ struct PokemonDetail: View {
                 Spacer()
             }
             .padding()
+            
+            Text("Stats")
+                .font(.title)
+                .padding(.bottom, -7)
+            
+            Stats()
+                .environmentObject(pokemon)
         }
         // Won't be visible via preview due to 'not being' in a NavigationStack
         .navigationTitle(pokemon.name!.capitalized)
