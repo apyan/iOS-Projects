@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PokemonDetail: View {
+    @Environment(\.managedObjectContext) private var viewContext
+    
     // @Environment is on system values and settings
     // This is more on objects, like sample CoreData Pokemon
     @EnvironmentObject var pokemon: Pokemon
@@ -44,6 +46,28 @@ struct PokemonDetail: View {
                 }
                 
                 Spacer()
+                
+                Button {
+                    withAnimation {
+                        pokemon.favorite.toggle()
+                        
+                        // Save any changes to CoreData
+                        do {
+                            try viewContext.save()
+                        } catch {
+                            let nsError = error as NSError
+                            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+                        }
+                    }
+                } label: {
+                    if pokemon.favorite {
+                        Image(systemName: "star.fill")
+                    } else {
+                        Image(systemName: "star")
+                    }
+                }
+                .font(.largeTitle)
+                .foregroundColor(.yellow)
             }
             .padding()
             
