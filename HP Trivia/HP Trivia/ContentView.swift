@@ -15,6 +15,8 @@ struct ContentView: View {
     @State private var animateViewsIn = false
     
     @State private var showInstructions = false
+    @State private var showSettings = false
+    @State private var playGame = false
     
     var body: some View {
         GeometryReader { geo in
@@ -107,6 +109,7 @@ struct ContentView: View {
                             if animateViewsIn {
                                 Button {
                                     // Start new game
+                                    playGame.toggle()
                                 } label: {
                                     // Rather than button, or the text won't be affectted
                                     // with press effect with Button("Play")
@@ -138,6 +141,7 @@ struct ContentView: View {
                             if animateViewsIn {
                                 Button {
                                     // Show settings screen
+                                    showSettings.toggle()
                                 } label: {
                                     Image(systemName: "gearshape.fill")
                                         .font(.largeTitle)
@@ -146,6 +150,12 @@ struct ContentView: View {
                                     
                                 }
                                 .transition(.offset(x: geo.size.height / 4))
+                                .sheet(isPresented: $showSettings) {
+                                    Settings()
+                                }
+                                .fullScreenCover(isPresented: $playGame) {
+                                    Gameplay()
+                                }
                             }
                         }
                         .animation(.easeOut(duration: 0.7).delay(2.7), value: animateViewsIn)
