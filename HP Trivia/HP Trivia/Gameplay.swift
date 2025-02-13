@@ -8,12 +8,22 @@
 import SwiftUI
 
 struct Gameplay: View {
+    @Environment(\.dismiss) private var dismiss
+    
+    // Holds the property that is connected or related to each other
+    @Namespace private var namespace
+    
     @State private var animateViewsIn = false
     @State private var tappedCorrectAnswer = false
     
     @State private var hintWiggle = false
     @State private var scaleNextButton = false
     @State private var movePointsToScore = false
+    
+    @State private var revealHint = false
+    @State private var revealBook = false
+    
+    let tempAnswers = [true, false , false, false]
     
     var body: some View {
         GeometryReader { geo in
@@ -28,7 +38,7 @@ struct Gameplay: View {
                     // Press the 'body' at the top row organizer and jump to other marks
                     HStack {
                         Button("End Game") {
-                            // TODO: End Game
+                            dismiss()
                         }
                         .buttonStyle(.borderedProminent)
                         .tint(.red.opacity(0.5))
@@ -76,6 +86,28 @@ struct Gameplay: View {
                                                 hintWiggle = true
                                             }
                                     }
+                                    .onTapGesture {
+                                        withAnimation(
+                                            .easeOut(duration: 1)
+                                        ) {
+                                            revealHint = true
+                                        }
+                                    }
+                                    .rotation3DEffect(
+                                        .degrees(revealHint ? 1440 : 0),
+                                        axis: (x: 0, y: 1, z: 0)
+                                    )
+                                    .scaleEffect(revealHint ? 5 : 1)
+                                    .opacity(revealHint ? 0 : 1)
+                                    .offset(x: revealHint ? geo.size.width / 2 : 0)
+                                    .overlay(
+                                        Text("The Boy Who _____")
+                                            .padding(.leading, 33)
+                                            .minimumScaleFactor(0.5)
+                                            .multilineTextAlignment(.center)
+                                            .opacity(revealHint ? 1 : 0)
+                                            .scaleEffect(revealHint ? 1.33 : 1)
+                                    )
                             }
                         }
                         .animation(.easeOut(duration: 1.5).delay(2), value: animateViewsIn)
@@ -105,6 +137,28 @@ struct Gameplay: View {
                                                 hintWiggle = true
                                             }
                                     }
+                                    .onTapGesture {
+                                        withAnimation(
+                                            .easeOut(duration: 1)
+                                        ) {
+                                            revealBook = true
+                                        }
+                                    }
+                                    .rotation3DEffect(
+                                        .degrees(revealBook ? 1440 : 0),
+                                        axis: (x: 0, y: 1, z: 0)
+                                    )
+                                    .scaleEffect(revealBook ? 5 : 1)
+                                    .opacity(revealBook ? 0 : 1)
+                                    .offset(x: revealBook ? -geo.size.width / 2 : 0)
+                                    .overlay(
+                                        Image("hp1")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .padding(.trailing, 33)
+                                            .opacity(revealBook ? 1 : 0)
+                                            .scaleEffect(revealBook ? 1.33 : 1)
+                                    )
                             }
                         }
                         .animation(.easeOut(duration: 1.5).delay(2), value: animateViewsIn)
@@ -115,23 +169,54 @@ struct Gameplay: View {
                     LazyVGrid(columns: [GridItem(), GridItem()]) {
                         // 1 to 4
                         ForEach(1..<5) { i in
-                            VStack {
-                                if (animateViewsIn) {
-                                    Text("Answer \(i)")
-                                    // Shrinks font to fit the text as much as possible
-                                        .minimumScaleFactor(0.5)
-                                        .multilineTextAlignment(.center)
-                                        .padding(10)
-                                        .frame(width: geo.size.width / 2.15, height: 80)
-                                        .background(.green.opacity(0.5))
-                                        .cornerRadius(25)
-                                        .transition(.scale)
+                            if (tempAnswers[i - 1] == true) {
+                                VStack {
+                                    if (animateViewsIn) {
+                                        if (tappedCorrectAnswer == false) {
+                                            Text("Answer \(i)")
+                                            // Shrinks font to fit the text as much as possible
+                                                .minimumScaleFactor(0.5)
+                                                .multilineTextAlignment(.center)
+                                                .padding(10)
+                                                .frame(width: geo.size.width / 2.15, height: 80)
+                                                .background(.green.opacity(0.5))
+                                                .cornerRadius(25)
+                                                .transition(
+                                                    .asymmetric(insertion: .scale,
+                                                                removal: .scale(scale: 5)
+                                                        .combined(with:
+                                                                .opacity.animation(
+                                                                    .easeOut(duration: 0.5)))))
+                                                .matchedGeometryEffect(id: "answer", in: namespace)
+                                                .onTapGesture {
+                                                    withAnimation(
+                                                        .easeOut(duration: 1)
+                                                    ) {
+                                                        tappedCorrectAnswer = true
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
+                                .animation(.easeOut(duration: 1).delay(1.5), value: animateViewsIn)
+                            } else {
+                                VStack {
+                                    if (animateViewsIn) {
+                                        Text("Answer \(i)")
+                                        // Shrinks font to fit the text as much as possible
+                                            .minimumScaleFactor(0.5)
+                                            .multilineTextAlignment(.center)
+                                            .padding(10)
+                                            .frame(width: geo.size.width / 2.15, height: 80)
+                                            .background(.green.opacity(0.5))
+                                            .cornerRadius(25)
+                                            .transition(.scale)
+                                    }
+                                }
+                                .animation(.easeOut(duration: 1).delay(1.5), value: animateViewsIn)
                             }
-                            .animation(.easeOut(duration: 1).delay(1.5), value: animateViewsIn)
                         }
                     }
-                    
                     Spacer()
                 }
                 .frame(width: geo.size.width, height: geo.size.height)
@@ -189,6 +274,7 @@ struct Gameplay: View {
                             .background(.green.opacity(0.5))
                             .cornerRadius(25)
                             .scaleEffect(2)
+                            .matchedGeometryEffect(id: "answer", in: namespace)
                     }
                     
                     // In older XCode and iOS version, you could only have up to
