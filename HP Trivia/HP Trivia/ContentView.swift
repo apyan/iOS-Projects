@@ -9,6 +9,8 @@ import SwiftUI
 import AVKit
 
 struct ContentView: View {
+    @EnvironmentObject private var store: Store
+    
     @State private var audioPlayer: AVAudioPlayer!
     @State private var scalePlayButton = false
     @State private var moveBackgroundImage = false
@@ -152,6 +154,7 @@ struct ContentView: View {
                                 .transition(.offset(x: geo.size.height / 4))
                                 .sheet(isPresented: $showSettings) {
                                     Settings()
+                                        .environmentObject(store)
                                 }
                                 .fullScreenCover(isPresented: $playGame) {
                                     Gameplay()
@@ -194,5 +197,6 @@ struct ContentView: View {
     // In case if the preview has a bug for the animation
     VStack {
         ContentView()
+            .environmentObject(Store())
     }
 }

@@ -9,9 +9,13 @@ import SwiftUI
 
 @main
 struct HP_TriviaApp: App {
+    // Let it exist throughout the entire app
+    @StateObject private var store = Store()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(store)
         }
     }
 }
