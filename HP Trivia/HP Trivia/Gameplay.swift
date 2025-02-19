@@ -10,6 +10,7 @@ import AVKit
 
 struct Gameplay: View {
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject private var game: Game
     
     // Holds the property that is connected or related to each other
     @Namespace private var namespace
@@ -413,5 +414,6 @@ struct Gameplay: View {
 #Preview {
     VStack {
         Gameplay()
+            .environmentObject(Game())
     }
 }

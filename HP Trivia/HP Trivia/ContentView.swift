@@ -10,6 +10,7 @@ import AVKit
 
 struct ContentView: View {
     @EnvironmentObject private var store: Store
+    @EnvironmentObject private var game: Game
     
     @State private var audioPlayer: AVAudioPlayer!
     @State private var scalePlayButton = false
@@ -111,6 +112,8 @@ struct ContentView: View {
                             if animateViewsIn {
                                 Button {
                                     // Start new game
+                                    filterQuestions()
+                                    game.startGame()
                                     playGame.toggle()
                                 } label: {
                                     // Rather than button, or the text won't be affectted
@@ -120,7 +123,7 @@ struct ContentView: View {
                                         .foregroundColor(.white)
                                         .padding(.vertical, 7)
                                         .padding(.horizontal, 50)
-                                        .background(.brown)
+                                        .background(store.books.contains(.active) ? .brown : .gray)
                                         .cornerRadius(7)
                                         .shadow(radius: 5)
                                 }
@@ -133,6 +136,8 @@ struct ContentView: View {
                                         }
                                 }
                                 .transition(.offset(y: geo.size.height / 3))
+                                // Must contain one active book to proceed
+                                .disabled(store.books.contains(.active) ? false : true)
                             }
                         }
                         .animation(.easeOut(duration: 0.7).delay(2), value: animateViewsIn)
@@ -158,6 +163,7 @@ struct ContentView: View {
                                 }
                                 .fullScreenCover(isPresented: $playGame) {
                                     Gameplay()
+                                        .environmentObject(game)
                                 }
                             }
                         }
@@ -169,6 +175,17 @@ struct ContentView: View {
                     // background image being 3 times bigger than the screen
                     // at line 16
                     .frame(width: geo.size.width)
+                    
+                    VStack {
+                        if animateViewsIn {
+                            if store.books.contains(.active) == false {
+                                Text("No questions available. Go to settings.⬆️")
+                                    .multilineTextAlignment(.center)
+                                    .transition(.opacity)
+                            }
+                        }
+                    }
+                    .animation(.easeInOut.delay(3), value: animateViewsIn)
                     
                     Spacer()
                 }
@@ -191,6 +208,19 @@ struct ContentView: View {
         audioPlayer.numberOfLoops = -1
         audioPlayer.play()
     }
+    
+    private func filterQuestions() {
+        var books: [Int] = []
+        
+        for (index, status) in store.books.enumerated() {
+            if status == .active {
+                books.append(index + 1)
+            }
+        }
+        
+        game.filterQuestions(to: books)
+        game.newQuestion()
+    }
 }
 
 #Preview {
@@ -198,5 +228,6 @@ struct ContentView: View {
     VStack {
         ContentView()
             .environmentObject(Store())
+            .environmentObject(Game())
     }
 }
