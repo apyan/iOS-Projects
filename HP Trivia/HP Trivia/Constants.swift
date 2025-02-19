@@ -33,3 +33,12 @@ extension Button {
             .foregroundColor(.white)
     }
 }
+
+extension FileManager {
+    // Save file onto our local device
+    // For lighter data than CoreData
+    static var documentsDirectory: URL {
+        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+        return paths[0]
+    }
+}

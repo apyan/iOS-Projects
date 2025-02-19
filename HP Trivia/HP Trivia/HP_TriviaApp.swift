@@ -21,6 +21,8 @@ struct HP_TriviaApp: App {
                 .task {
                     // Load up the products so they can be ready to be purchased
                     await store.loadProducts()
+                    game.loadScores()
+                    store.loadStatus()
                 }
         }
     }
