@@ -16,6 +16,10 @@ struct HP_TriviaApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(store)
+                .task {
+                    // Load up the products so they can be ready to be purchased
+                    await store.loadProducts()
+                }
         }
     }
 }
